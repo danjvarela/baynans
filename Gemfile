@@ -52,6 +52,8 @@ group :development, :test do
   gem 'factory_bot_rails'
 
   gem 'dotenv-rails'
+  gem "htmlbeautifier"
+  gem "standard"
 end
 
 group :development do
