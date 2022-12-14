@@ -37,7 +37,7 @@ RSpec.describe "Admins", type: :request do
     context "with incorrect params" do
       it "should not create a new user" do
         before_count = User.count
-        post users_path, params: { user: { email: nil, password: nil } }
+        post users_path, params: {user: {email: nil, password: nil}}
         expect(User.count).to eq(before_count)
       end
 
@@ -88,7 +88,7 @@ RSpec.describe "Admins", type: :request do
     let(:new_email) { generate :email }
 
     it "should update a user's detail" do
-      put user_path(user), params: { user: { email: new_email } }
+      put user_path(user), params: {user: {email: new_email}}
       expect(User.find(user.id).email).to eq(new_email)
     end
 
