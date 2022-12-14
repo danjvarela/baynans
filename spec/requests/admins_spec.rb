@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'Admins', type: :request do
+RSpec.describe "Admins", type: :request do
   let(:user) { create :user }
   let(:user_attributes) { attributes_for :user }
 
@@ -8,83 +8,83 @@ RSpec.describe 'Admins', type: :request do
     sign_in user
   end
 
-  describe 'GET /admin/users' do
-    it 'should return http success' do
+  describe "GET /admin/users" do
+    it "should return http success" do
       get users_path
       expect(response).to be_successful
     end
 
-    it 'should render all users page' do
+    it "should render all users page" do
       get users_path
       expect(response).to render_template(:index)
     end
   end
 
-  describe 'POST /admin/users' do
-    context 'with correct params' do
-      it 'should create a new user' do
+  describe "POST /admin/users" do
+    context "with correct params" do
+      it "should create a new user" do
         before_count = User.count
-        post users_path, params: { user: user_attributes }
+        post users_path, params: {user: user_attributes}
         expect(User.count).to eq(before_count + 1)
       end
 
-      it 'should redirect to root_path' do
-        post users_path, params: { user: user_attributes }
+      it "should redirect to root_path" do
+        post users_path, params: {user: user_attributes}
         expect(response).to redirect_to root_path
       end
     end
 
-    context 'with incorrect params' do
-      it 'should not create a new user' do
+    context "with incorrect params" do
+      it "should not create a new user" do
         before_count = User.count
         post users_path, params: { user: { email: nil, password: nil } }
         expect(User.count).to eq(before_count)
       end
 
-      it 'should redirect to root_path' do
-        post users_path, params: { user: user_attributes }
+      it "should redirect to root_path" do
+        post users_path, params: {user: user_attributes}
         expect(response).to redirect_to root_path
       end
     end
   end
 
-  describe 'GET /admin/users/new' do
-    it 'should return http success' do
+  describe "GET /admin/users/new" do
+    it "should return http success" do
       get new_user_path
       expect(response).to be_successful
     end
 
-    it 'should render new user page' do
+    it "should render new user page" do
       get new_user_path
       expect(response).to render_template(:new)
     end
   end
 
-  describe 'GET /admin/users/:id/edit' do
-    it 'should return http success' do
+  describe "GET /admin/users/:id/edit" do
+    it "should return http success" do
       get edit_user_path(user)
       expect(response).to be_successful
     end
 
-    it 'should render new user page' do
+    it "should render new user page" do
       get edit_user_path(user)
       expect(response).to render_template(:edit)
     end
   end
 
-  describe 'GET /admin/users/:id' do
-    it 'should return http success' do
+  describe "GET /admin/users/:id" do
+    it "should return http success" do
       get user_path(user)
       expect(response).to be_successful
     end
 
-    it 'should render new user page' do
+    it "should render new user page" do
       get user_path(user)
       expect(response).to render_template(:show)
     end
   end
 
-  describe 'PUT /admin/users/:id' do
+  describe "PUT /admin/users/:id" do
     let(:new_email) { generate :email }
 
     it "should update a user's detail" do
@@ -92,21 +92,21 @@ RSpec.describe 'Admins', type: :request do
       expect(User.find(user.id).email).to eq(new_email)
     end
 
-    it 'should redirect to root path' do
-      put user_path(user), params: { user: { email: new_email } }
+    it "should redirect to root path" do
+      put user_path(user), params: {user: {email: new_email}}
       expect(response).to redirect_to root_path
     end
   end
 
-  describe 'DELETE /admin/users/:id' do
-    it 'should delete a user' do
+  describe "DELETE /admin/users/:id" do
+    it "should delete a user" do
       created_user = user # just call user to trigger user creation
       before_count = User.count
       delete user_path(created_user)
       expect(User.count).to eq(before_count - 1)
     end
 
-    it 'should redirect to root path' do
+    it "should redirect to root path" do
       delete user_path(user)
       expect(response).to redirect_to root_path
     end
