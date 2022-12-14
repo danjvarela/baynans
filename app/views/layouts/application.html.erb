@@ -18,7 +18,6 @@
       <p>Logged in as: <%= current_user.email %></p>
       <p>User type: <%= current_user.user_type.humanize %></p>
       <p><%= button_to "Logout", destroy_user_session_path, method: :delete %></p>
-
     <% end %>
     <%= yield %>
   </body>
