@@ -11,7 +11,7 @@ RSpec.describe "Admins", type: :request do
   describe "GET /admin/users" do
     it "should return http success" do
       get users_path
-      expect(response).to be_successfull
+      expect(response).to be_successful
     end
 
     it "should render all users page" do
@@ -37,7 +37,7 @@ RSpec.describe "Admins", type: :request do
     context "with incorrect params" do
       it "should not create a new user" do
         before_count = User.count
-        post users_path, params: {user: {}}
+        post users_path, params: { user: { email: nil, password: nil } }
         expect(User.count).to eq(before_count)
       end
 
@@ -45,18 +45,13 @@ RSpec.describe "Admins", type: :request do
         post users_path, params: {user: user_attributes}
         expect(response).to redirect_to root_path
       end
-
-      it "should return http unprocessable entity" do
-        post users_path, params: {user: user_attributes}
-        expect(response).to have_http_status :unprocessable_entity
-      end
     end
   end
 
   describe "GET /admin/users/new" do
     it "should return http success" do
       get new_user_path
-      expect(response).to be_successfull
+      expect(response).to be_successful
     end
 
     it "should render new user page" do
@@ -68,7 +63,7 @@ RSpec.describe "Admins", type: :request do
   describe "GET /admin/users/:id/edit" do
     it "should return http success" do
       get edit_user_path(user)
-      expect(response).to be_successfull
+      expect(response).to be_successful
     end
 
     it "should render new user page" do
@@ -80,7 +75,7 @@ RSpec.describe "Admins", type: :request do
   describe "GET /admin/users/:id" do
     it "should return http success" do
       get user_path(user)
-      expect(response).to be_successfull
+      expect(response).to be_successful
     end
 
     it "should render new user page" do
@@ -90,10 +85,11 @@ RSpec.describe "Admins", type: :request do
   end
 
   describe "PUT /admin/users/:id" do
+    let(:new_email) { generate :email }
+
     it "should update a user's detail" do
-      new_email = "custom_email@example"
-      put user_path(user), params: {user: {email: new_email}}
-      expect(user.email).to eq(new_email)
+      put user_path(user), params: { user: { email: new_email } }
+      expect(User.find(user.id).email).to eq(new_email)
     end
 
     it "should redirect to root path" do
@@ -104,14 +100,14 @@ RSpec.describe "Admins", type: :request do
 
   describe "DELETE /admin/users/:id" do
     it "should delete a user" do
-      created_user = user
+      created_user = user # just call user to trigger user creation
       before_count = User.count
       delete user_path(created_user)
       expect(User.count).to eq(before_count - 1)
     end
 
     it "should redirect to root path" do
-      delete user_path(created_user)
+      delete user_path(user)
       expect(response).to redirect_to root_path
     end
   end
