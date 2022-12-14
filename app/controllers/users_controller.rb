@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :get_user, only: %i[show edit update destroy]
   before_action :get_user_type_options, only: %i[new create edit update]
+  before_action :admin_only
 
   def index
     @users = User.all
@@ -44,6 +45,12 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :user_type)
+  end
+
+  def admin_only
+    if !current_user.admin?
+      redirect_to root_path
+    end
   end
 
   def optional_password_params
