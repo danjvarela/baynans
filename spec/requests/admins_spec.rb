@@ -112,4 +112,16 @@ RSpec.describe "Admins", type: :request do
       expect(response).to redirect_to root_path
     end
   end
+
+  describe "GET /admin/notifications" do
+    it "should return http success" do
+      get admin_notifications_path
+      expect(response).to be_successful
+    end
+
+    it "should render notifications page" do
+      get admin_notifications_path
+      expect(response).to render_template(:notifications)
+    end
+  end
 end
