@@ -34,4 +34,19 @@ RSpec.describe "Traders", type: :request do
       expect(response).to redirect_to root_path
     end
   end
+
+  describe "POST /users/sign_in" do
+    it "should redirect to root_path if signup status is pending" do
+      post user_session_path, params: {user: user.attributes}
+      expect(response).to redirect_to root_path
+      expect(user.pending?).to be true
+    end
+  end
+
+  describe "GET /admin/notifications" do
+    it "should redirect to root path" do
+      get admin_notifications_path
+      expect(response).to redirect_to root_path
+    end
+  end
 end
