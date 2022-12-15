@@ -5,7 +5,8 @@ RSpec.describe "Admins", type: :request do
   let(:user_attributes) { attributes_for :user }
 
   before :each do
-    sign_in user
+    admin = create :user, user_type: :admin
+    sign_in admin
   end
 
   describe "GET /admin/users" do
