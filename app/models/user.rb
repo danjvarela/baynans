@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  before_validation :set_trading_status
+  before_validation :set_trading_status, on: :create
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
