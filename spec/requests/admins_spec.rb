@@ -1,11 +1,20 @@
 require "rails_helper"
 
 RSpec.describe "Admins", type: :request do
-  let(:user) { create :user }
+  let(:user) do
+    user = build :user
+    user.skip_confirmation!
+    user.save
+    User.find_by(email: user.email)
+  end
   let(:user_attributes) { attributes_for :user }
 
   before :each do
-    admin = create :user, user_type: :admin
+    admin = build :user, user_type: :admin
+    admin.skip_confirmation!
+    admin.save
+    admin = User.find_by(email: admin.email)
+
     sign_in admin
   end
 
