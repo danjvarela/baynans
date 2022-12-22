@@ -1,0 +1,4 @@
+<h4>Unconfirmed traders</h4>
+<% @unconfirmed_users.each do |user| %>
+  <p><%= user.email %> <%= button_to "Approve", admin_user_approve_path(user), method: :put %> </p>
+<% end %>
