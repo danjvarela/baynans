@@ -18,6 +18,12 @@
       <p>Logged in as: <%= current_user.email %></p>
       <p>User type: <%= current_user.user_type.humanize %></p>
       <p><%= button_to "Logout", destroy_user_session_path, method: :delete %></p>
+      <% if current_user.admin? %>
+        <%= link_to "Notifications", admin_notifications_path %>
+      <% end %>
+    <% end %>
+    <% if action_name != "home" %>
+      <%= link_to "Home", root_path %>
     <% end %>
     <%= yield %>
   </body>

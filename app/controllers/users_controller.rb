@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_user, only: %i[show edit update destroy]
+  before_action :get_user, only: %i[show edit update destroy approve]
   before_action :get_user_type_options, only: %i[new create edit update]
   before_action :admin_only
 
@@ -41,10 +41,19 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
+  def notifications
+    @unconfirmed_users = User.trading_status_pending
+  end
+
+  def approve
+    @user.trading_status_approved!
+    redirect_to admin_notifications_path
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :user_type)
+    params.require(:user).permit(:email, :password, :password_confirmation, :user_type, :trading_status)
   end
 
   def admin_only

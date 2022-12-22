@@ -7,3 +7,13 @@
 #   Character.create(name: "Luke", movie: movies.first)
 # User.create email: "trader1@example", password: "password"
 # User.create email: "admin1@example", password: "password", user_type: :admin
+
+admin = User.new(email: "admin@example.com", password: "qwerty", user_type: :admin)
+admin.skip_confirmation!
+admin.save!
+
+10.times do |n|
+  user = User.new(email: "user#{n}@example.com", password: "qwerty")
+  user.skip_confirmation!
+  user.save!
+end
