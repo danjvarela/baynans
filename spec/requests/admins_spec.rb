@@ -13,7 +13,6 @@ RSpec.describe "Admins", type: :request do
     admin = User.new attributes_for(:user, user_type: :admin)
     admin.skip_confirmation!
     admin.save!
-
     sign_in admin
   end
 
@@ -92,7 +91,7 @@ RSpec.describe "Admins", type: :request do
       expect(response).to render_template(:show)
     end
   end
-  
+
   # Skip this for now
   # Updating a user's email triggers confirmation
   # describe "PUT /admin/users/:id" do
@@ -132,6 +131,12 @@ RSpec.describe "Admins", type: :request do
     it "should render notifications page" do
       get admin_notifications_path
       expect(response).to render_template(:notifications)
+    end
+  end
+
+  describe "PUT /admin/users/:id/approve" do
+    it "should send an email once user is approved" do
+      expect { put admin_user_approve_path(user) }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
     end
   end
 end
