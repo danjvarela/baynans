@@ -48,7 +48,7 @@ class UsersController < ApplicationController
   def approve
     @user.trading_status_approved!
     AdminMailer.with(user: @user).approve_user_email.deliver_later
-    redirect_to admin_notifications_path
+    redirect_to admin_notifications_path, notice: "#{@user.email} has been approved for trading."
   end
 
   private
