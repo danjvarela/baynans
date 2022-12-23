@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "signup status" do
+  describe "Trading status" do
     it "should have a pending value by default if user is a trader" do
       created_user = user
       expect(created_user.trading_status_pending?).to be true

@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :admin_only
   before_action :get_user, only: %i[show edit update destroy approve]
   before_action :get_user_type_options, only: %i[new create edit update]
-  before_action :admin_only
 
   def index
     @users = User.all
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update optional_password_params
+    if @user.update! optional_password_params
       redirect_to root_path
     else
       render :edit, status: :unprocessable_entity
