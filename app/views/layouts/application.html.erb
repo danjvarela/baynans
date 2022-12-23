@@ -19,7 +19,7 @@
       <p>User type: <%= current_user.user_type.humanize %></p>
       <p><%= button_to "Logout", destroy_user_session_path, method: :delete %></p>
 
-      <% if current_user.admin? %>
+      <% if current_user.admin? && action_name != "notifications" %>
         <p>
           <%= link_to "Notifications", admin_notifications_path %>
         </p>
