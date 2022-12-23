@@ -9,21 +9,27 @@
   </head>
   <body>
     <% if notice %>
-      <p class="alert alert-success"><%= notice %></p>
+      <p class="alert alert-success" style="color: green"><%= notice %></p>
     <% end %>
     <% if alert %>
-      <p class="alert alert-danger"><%= alert %></p>
+      <p class="alert alert-danger" style="color: red"><%= alert %></p>
     <% end %>
     <% if user_signed_in? %>
       <p>Logged in as: <%= current_user.email %></p>
       <p>User type: <%= current_user.user_type.humanize %></p>
       <p><%= button_to "Logout", destroy_user_session_path, method: :delete %></p>
-      <% if current_user.admin? %>
-        <%= link_to "Notifications", admin_notifications_path %>
+
+      <% if current_user.admin? && action_name != "notifications" %>
+        <p>
+          <%= link_to "Notifications", admin_notifications_path %>
+        </p>
       <% end %>
-    <% end %>
-    <% if action_name != "home" %>
-      <%= link_to "Home", root_path %>
+
+      <% if action_name != "home" %>
+        <p>
+          <%= link_to "Home", root_path %>
+        </p>
+      <% end %>
     <% end %>
     <%= yield %>
   </body>
