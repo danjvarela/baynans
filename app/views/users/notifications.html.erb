@@ -1,4 +1,4 @@
-<h4>Unconfirmed traders</h4>
+<h1>Notifications</h1>
 <% @unconfirmed_users.each do |user| %>
-  <p><%= user.email %> <%= button_to "Approve", admin_user_approve_path(user), method: :put %> </p>
+  <p style="margin-bottom: 5px;"><strong><%= user.email %></strong> wants to ask permission to trade. <%= button_to("Approve", admin_user_approve_path(user), method: :put)%></p>
 <% end %>
