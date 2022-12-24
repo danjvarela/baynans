@@ -1,8 +1,15 @@
 require "rails_helper"
 
 RSpec.describe "Traders", type: :request do
-  let(:user) { create :user }
+  let(:user) do
+    user = User.new(attributes_for(:user))
+    user.skip_confirmation!
+    user.save!
+    user
+  end
+
   let(:user_attributes) { attributes_for :user }
+
   before :each do
     sign_in user
   end
@@ -39,7 +46,7 @@ RSpec.describe "Traders", type: :request do
     it "should redirect to root_path if signup status is pending" do
       post user_session_path, params: {user: user.attributes}
       expect(response).to redirect_to root_path
-      expect(user.pending?).to be true
+      expect(user.trading_status_pending?).to be true
     end
   end
 
