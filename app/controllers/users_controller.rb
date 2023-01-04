@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :admin_only
-  before_action :get_user, only: %i[show edit update destroy approve]
+  before_action :admin_only, except: [:portfolio]
+  before_action :get_user, only: %i[show edit update destroy approve portfolio]
   before_action :get_user_type_options, only: %i[new create edit update]
 
   def index
@@ -52,6 +52,9 @@ class UsersController < ApplicationController
     else
       redirect_to admin_notifications_path, alert: "Something went wrong."
     end
+  end
+
+  def portfolio
   end
 
   private

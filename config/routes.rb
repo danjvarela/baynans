@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   end
   devise_for :users
   root "pages#home"
+  get "/users/:id/portfolio", to: "users#portfolio", as: "user_portfolio"
 end
