@@ -12,11 +12,15 @@ admin = User.new(email: "admin@example.com", password: "qwerty", user_type: :adm
 admin.skip_confirmation!
 admin.save!
 
+client = Iex.client
+
 10.times do |n|
   user = User.new(email: "user#{n}@example.com", password: "qwerty")
   user.skip_confirmation!
   user.save!
+  apple = client.company("AAPL")
+  stock = Stock.create(company_name: apple.company_name, symbol: apple.symbol)
+  user.stocks << stock
 end
 
 Stock.create(symbol: "AAPL", company_name: "Apple Inc.")
-
