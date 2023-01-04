@@ -55,6 +55,7 @@ class UsersController < ApplicationController
   end
 
   def portfolio
+    @stocks = @user.stocks
   end
 
   private

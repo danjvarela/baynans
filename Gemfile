@@ -21,6 +21,9 @@ gem "jbuilder"
 # gem DEVISE
 gem "devise"
 
+# iex
+gem "iex-ruby-client"
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
