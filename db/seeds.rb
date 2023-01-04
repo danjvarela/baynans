@@ -17,3 +17,6 @@ admin.save!
   user.skip_confirmation!
   user.save!
 end
+
+Stock.create(symbol: "AAPL", company_name: "Apple Inc.")
+
