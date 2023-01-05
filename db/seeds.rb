@@ -13,14 +13,17 @@ admin.skip_confirmation!
 admin.save!
 
 client = Iex.client
+stock_market_list = client.stock_market_list(:mostactive)
+
+stock_market_list.each do |stock|
+  Stock.create(symbol: stock["symbol"], company_name: stock["company_name"])
+end
+
+stocks = Stock.all
 
 10.times do |n|
   user = User.new(email: "user#{n}@example.com", password: "qwerty")
   user.skip_confirmation!
   user.save!
-  apple = client.company("AAPL")
-  stock = Stock.create(company_name: apple.company_name, symbol: apple.symbol)
-  user.stocks << stock
+  user.stocks << stocks.sample(3)
 end
-
-Stock.create(symbol: "AAPL", company_name: "Apple Inc.")
