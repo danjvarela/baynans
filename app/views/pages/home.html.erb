@@ -17,19 +17,18 @@
     <th>Change</th>
     <th>Change Percentage</th>
   </tr>
-  <% @stocks.each do |stock| %>
-    <% stock_additional_values = @stock_market_list.detect {|s| s["symbol"] == stock.symbol} %>
-    <tr style="color: <%= stock_additional_values["change"] < 0 ? "red" : "green" %>">
-      <td><%= stock.symbol %></td>
-      <td><%= stock.company_name %></td>
+  <% @stock_market_list.each do |stock| %>
+    <tr style="color: <%= stock["change"] < 0 ? "red" : "green" %>">
+      <td><%= stock["symbol"] %></td>
+      <td><%= stock["company_name"] %></td>
       <td>
-        <%= stock_additional_values["latest_price"] %>
+        <%= stock["latest_price"] %>
       </td>
       <td>
-        <%= stock_additional_values["change"] %>
+        <%= stock["change"] %>
       </td>
       <td>
-        <%= stock_additional_values["change_percent_s"] %>
+        <%= stock["change_percent_s"] %>
       </td>
     </tr>
   <% end %>
