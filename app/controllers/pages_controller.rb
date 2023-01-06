@@ -1,7 +1,6 @@
 class PagesController < ApplicationController
   def home
-    client = Iex.client
     # list of active stocks
-    @stock_market_list = client.stock_market_list(:mostactive)
+    @stock_market_list = Iex.most_active_stocks
   end
 end

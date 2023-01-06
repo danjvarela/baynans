@@ -6,4 +6,8 @@ class Iex < ApplicationRecord
       endpoint: "https://cloud.iexapis.com/v1"
     )
   end
+
+  def self.most_active_stocks
+    self.client.stock_market_list(:mostactive)
+  end
 end
