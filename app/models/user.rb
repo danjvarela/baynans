@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  has_many :user_stocks
-  has_many :stocks, through: :user_stocks
+  has_many :transactions
+  has_many :stocks, through: :transactions
   before_validation :set_trading_status, on: :create
 
   # Include default devise modules. Others available are:
