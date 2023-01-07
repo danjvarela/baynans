@@ -56,6 +56,7 @@ class UsersController < ApplicationController
 
   def portfolio
     @stocks = @user.stocks
+    @client = Iex.client
   end
 
   private
