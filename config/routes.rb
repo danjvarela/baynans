@@ -7,4 +7,7 @@ Rails.application.routes.draw do
   devise_for :users
   root "pages#home"
   get "/users/:id/portfolio", to: "users#portfolio", as: "user_portfolio"
+  resources :stocks do
+    resources :transactions, only: [:create, :new]
+  end
 end

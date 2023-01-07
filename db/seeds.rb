@@ -24,6 +24,6 @@ stocks = Stock.all
   user.save if !User.find_by email: user.email
 
   3.times do
-    Transaction.create user: user, stock: stocks.sample, amount: rand(1.5..3.0), transaction_type: [:buy, :sell].sample
+    Transaction.create user: user, stock: stocks.sample, amount: rand(1.5..3.0), transaction_type: [:buy, :sell].sample, stock_price: rand(1.5..3.0)
   end
 end
