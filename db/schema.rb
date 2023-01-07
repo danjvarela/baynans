@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_04_114213) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_07_000102) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,13 +21,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_04_114213) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_stocks", force: :cascade do |t|
+  create_table "transactions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "stock_id", null: false
+    t.float "amount", null: false
+    t.integer "transaction_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["stock_id"], name: "index_user_stocks_on_stock_id"
-    t.index ["user_id"], name: "index_user_stocks_on_user_id"
+    t.index ["stock_id"], name: "index_transactions_on_stock_id"
+    t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -49,6 +51,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_04_114213) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "user_stocks", "stocks"
-  add_foreign_key "user_stocks", "users"
+  add_foreign_key "transactions", "stocks"
+  add_foreign_key "transactions", "users"
 end
