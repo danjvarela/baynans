@@ -10,23 +10,25 @@
     <th>Issue Type</th>
     <th>Sector</th>
     <th>Employees</th>
+    <th>Tags</th>
   </tr>
   <% @stocks.each do |stock| %>
-    <% company = @client.company(stock.symbol) %>
+    <% company = @batch_companies[stock.symbol] %>
     <tr>
       <td>
         <%= link_to company["symbol"], company["website"] %>
       </td>
       <td>
-        <%= company["company_name"] %>
+        <%= company["companyName"] %>
       </td>
       <td><%= company["exchange"] %></td>
       <td><%= company["industry"] %></td>
-      <td><%= company["ceo"] %></td>
-      <td><%= company["security_name"] %></td>
-      <td><%= company["issue_type"] %></td>
+      <td><%= company["CEO"] %></td>
+      <td><%= company["securityName"] %></td>
+      <td><%= company["issueType"] %></td>
       <td><%= company["sector"] %></td>
       <td><%= company["employees"] %></td>
+      <td><%= company["tags"].join(", ") %></td>
     </tr>
   <% end %>
 </table>
