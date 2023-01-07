@@ -7,7 +7,6 @@
   </div>
 <% end %>
 <%= link_to "Portfolio", user_portfolio_path(current_user) %>
-
 <h1>Stocks</h1>
 <table>
   <tr>
@@ -20,7 +19,6 @@
   <% @stocks.each do |stock| %>
     <% stock_from_iex = @stock_market_list.detect {|s| s["symbol"] == stock.symbol }%>
     <tr style="color: <%= stock_from_iex["change"] < 0 ? "red" : "green" %>">
-
       <td><%= stock.symbol %></td>
       <td><%= stock.company_name %></td>
       <td>
@@ -33,7 +31,6 @@
         <%= stock_from_iex["change_percent_s"] %>
       </td>
       <td><%= link_to "Trade", new_stock_transaction_path(stock) %></td>
-
     </tr>
   <% end %>
 </table>

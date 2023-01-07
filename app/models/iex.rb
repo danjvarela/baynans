@@ -7,6 +7,6 @@ class Iex < ApplicationRecord
   end
 
   def self.most_active_stocks
-    self.client.stock_market_list(:mostactive, {listLimit: 20})
+    client.stock_market_list(:mostactive, {listLimit: 20})
   end
 end

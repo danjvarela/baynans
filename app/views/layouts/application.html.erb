@@ -19,13 +19,11 @@
       <p>User type: <%= current_user.user_type.humanize %></p>
       <p>Trading status: <%= current_user.trading_status.humanize %></p>
       <p><%= button_to "Logout", destroy_user_session_path, method: :delete %></p>
-
       <% if current_user.admin? && action_name != "notifications" %>
         <p>
           <%= link_to "Notifications", admin_notifications_path %>
         </p>
       <% end %>
-
       <% if action_name != "home" %>
         <p>
           <%= link_to "Home", root_path %>
