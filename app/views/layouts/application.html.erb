@@ -29,6 +29,12 @@
           <%= link_to "Home", root_path %>
         </p>
       <% end %>
+      <% if action_name != "index" %>
+        <p>
+          <%= link_to "Transaction History", transactions_path %>
+        </p>
+      <% end %>
+
     <% end %>
     <%= yield %>
   </body>
