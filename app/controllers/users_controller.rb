@@ -23,11 +23,9 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @user.update! optional_password_params
@@ -51,7 +49,7 @@ class UsersController < ApplicationController
       AdminMailer.with(user: @user).approve_user_email.deliver_later
       redirect_to admin_notifications_path, notice: "#{@user.email} has been approved for trading."
     else
-      redirect_to admin_notifications_path, alert: "Something went wrong."
+      redirect_to admin_notifications_path, alert: 'Something went wrong.'
     end
   end
 
@@ -60,17 +58,17 @@ class UsersController < ApplicationController
     # batch requests can only handle 10 symbols at a time so we split @stocks into groups of 10
     # and do a batch request for each group
     @batch_companies = @stocks.in_groups_of(10, false).map do |group|
-      Iex.client.get("/stock/market/batch", {
-        token: ENV["iex_publishable_token"],
-        symbols: group.pluck(:symbol).map(&:downcase).join(","),
-        types: [:company]
-      })
+      Iex.client.get('/stock/market/batch', {
+                       token: ENV['iex_publishable_token'],
+                       symbols: group.pluck(:symbol).map(&:downcase).join(','),
+                       types: [:company]
+                     })
     end
     # => returns data in the shape of [{"AAPL" => {"company" => {...company_attributes_of_AAPL}}, "TSLA"=>{"company"=>{...company_attributes_of_TSLA}}, ...}]
 
     # reshape the data so it becomes {"AAPL"=>{...company_attributes_of_AAPL}, "TSLA"=>{...company_attributes_of_TSLA}}
-    @batch_companies = @batch_companies.first.keys.each_with_object({}) do |symbol, accumulator|
-      accumulator[symbol] = @batch_companies.first[symbol]["company"]
+    @batch_companies = @batch_companies.first.keys.index_with do |symbol|
+      @batch_companies.first[symbol]['company']
     end
   end
 
@@ -81,9 +79,9 @@ class UsersController < ApplicationController
   end
 
   def admin_only
-    if !current_user.admin?
-      redirect_to root_path
-    end
+    return if current_user.admin?
+
+    redirect_to root_path
   end
 
   def optional_password_params
