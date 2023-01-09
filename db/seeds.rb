@@ -22,14 +22,14 @@ stocks = Stock.all
   user = User.new email: "user#{n}@example.com", password: 'qwerty'
   user.skip_confirmation!
   user.save unless User.find_by email: user.email
-
-  stock = stocks.sample
-  quote = Iex.client.quote stock.symbol
-  stock_price = quote['latest_price']
-  amount = rand(1..stock_price)
-  units = amount / stock_price
+  user.trading_status_approved!
 
   3.times do
+    stock = stocks.sample
+    quote = Iex.client.quote stock.symbol
+    stock_price = quote['latest_price']
+    amount = rand(1..stock_price)
+    units = amount / stock_price
     Transaction.create user:, stock: stocks.sample, amount:, transaction_type: %i[buy sell].sample,
                        stock_price:, units:
   end
