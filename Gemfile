@@ -59,6 +59,9 @@ group :development, :test do
   gem 'htmlbeautifier'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
+
+  gem 'solargraph'
+  gem 'solargraph-rails'
 end
 
 group :development do
