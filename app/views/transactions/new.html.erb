@@ -1,9 +1,9 @@
-<p>this is the trading page of <%= @stock.company_name%></p>
-<p>Latest price <%= @transaction.stock_price %></p>
+<h1><%= @stock.company_name %></h1>
+<p>Latest price: <%= @transaction.stock_price %></p>
 <%= form_with(model: @transaction, url: stock_transactions_path(@stock), method: :post) do |form| %>
   <div>
     <%= form.label :amount, style: "display: block" %>
-    <%= form.text_field :amount %>
+    <%= form.number_field :amount, step: "any" %>
     <%= form.hidden_field :transaction_type, value: "buy" %>
   </div>
   <br>
