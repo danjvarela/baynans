@@ -8,28 +8,29 @@
 # User.create email: "trader1@example", password: "password"
 # User.create email: "admin1@example", password: "password", user_type: :admin
 
-admin = User.new email: "admin@example.com", password: "qwerty", user_type: :admin
+admin = User.new email: 'admin@example.com', password: 'qwerty', user_type: :admin
 admin.skip_confirmation!
-admin.save! if !User.find_by email: admin.email
+admin.save! unless User.find_by email: admin.email
 
 Iex.most_active_stocks.each do |stock|
-  Stock.create symbol: stock["symbol"], company_name: stock["company_name"] unless Stock.find_by symbol: stock["symbol"]
+  Stock.create symbol: stock['symbol'], company_name: stock['company_name'] unless Stock.find_by symbol: stock['symbol']
 end
 
 stocks = Stock.all
 
 10.times do |n|
-  user = User.new email: "user#{n}@example.com", password: "qwerty"
+  user = User.new email: "user#{n}@example.com", password: 'qwerty'
   user.skip_confirmation!
-  user.save if !User.find_by email: user.email
-  
+  user.save unless User.find_by email: user.email
+
   stock = stocks.sample
   quote = Iex.client.quote stock.symbol
-  stock_price = quote["latest_price"]
+  stock_price = quote['latest_price']
   amount = rand(1..stock_price)
   units = amount / stock_price
 
   3.times do
-    Transaction.create user: user, stock: stocks.sample, amount: amount, transaction_type: [:buy, :sell].sample, stock_price: stock_price, units: units
+    Transaction.create user:, stock: stocks.sample, amount:, transaction_type: %i[buy sell].sample,
+                       stock_price:, units:
   end
 end

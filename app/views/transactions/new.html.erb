@@ -13,7 +13,6 @@
     <%= form.submit "Buy" %>
   </div>
 <% end %>
-
 <h2>Sell Stock</h2>
 <%= form_with(model: @transaction, url: stock_transactions_path(@stock), method: :post) do |form| %>
   <div>

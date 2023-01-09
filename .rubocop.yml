@@ -1,4 +1,1 @@
-require: standard
-
-inherit_gem:
-  standard: config/base.yml
+require: rubocop-rails
