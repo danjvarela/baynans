@@ -6,12 +6,13 @@ class TransactionsController < ApplicationController
 
   def create
     stock_price = @stock_quote.latest_price
-    amount = get_transaction[:amount].to_f
+    transaction_type = get_transaction[:transaction_type].to_sym
+    amount = get_transaction[:amount].to_f * (transaction_type == :sell ? -1 : 1)
     transaction_attributes = {
       stock: @stock,
       user: current_user,
       stock_price: stock_price,
-      transaction_type: get_transaction[:transaction_type].to_sym,
+      transaction_type: transaction_type,
       amount: amount,
       units: amount / stock_price
     }
