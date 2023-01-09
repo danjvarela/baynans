@@ -20,7 +20,8 @@ class TransactionsController < ApplicationController
     if @transaction.save
       redirect_to new_stock_transaction_path(@stock), notice: "Succesfully placed order!"
     else
-      redirect_to new_stock_transaction_path(@stock), alert: "Something went wrong, please try again!"
+      flash.now[:alert] = "Something went wrong, please try again!"
+      render :new
     end
   end
 
@@ -35,3 +36,5 @@ class TransactionsController < ApplicationController
     @stock_quote = Iex.client.quote(@stock.symbol)
   end
 end
+
+
