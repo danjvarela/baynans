@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  before_action :get_stock
+  before_action :get_stock, except: [:index]
   def new
     @transaction = Transaction.new(stock: @stock, user: current_user, stock_price: @stock_quote.latest_price)
   end
@@ -24,6 +24,10 @@ class TransactionsController < ApplicationController
       flash.now[:alert] = 'Something went wrong, please try again!'
       render :new
     end
+  end
+
+  def index
+    @transactions = current_user.transactions
   end
 
   private
