@@ -1,4 +1,34 @@
-<p>Hello, this is the portfolio page of <%= @user.email %></p>
-<% @stocks.each do |stock| %>
-    <p><%= stock.company_name %> <%= stock.symbol %> </p>
-<% end %>
+<h1>Porfolio</h1>
+<table>
+  <tr>
+    <th>Symbol</th>
+    <th>Company Name</th>
+    <th>Exchange</th>
+    <th>Industry</th>
+    <th>CEO</th>
+    <th>Security Name</th>
+    <th>Issue Type</th>
+    <th>Sector</th>
+    <th>Employees</th>
+    <th>Tags</th>
+  </tr>
+  <% @stocks.each do |stock| %>
+    <% company = @batch_companies[stock.symbol] %>
+    <tr>
+      <td>
+        <%= link_to company["symbol"], company["website"] %>
+      </td>
+      <td>
+        <%= company["companyName"] %>
+      </td>
+      <td><%= company["exchange"] %></td>
+      <td><%= company["industry"] %></td>
+      <td><%= company["CEO"] %></td>
+      <td><%= company["securityName"] %></td>
+      <td><%= company["issueType"] %></td>
+      <td><%= company["sector"] %></td>
+      <td><%= company["employees"] %></td>
+      <td><%= company["tags"].join(", ") %></td>
+    </tr>
+  <% end %>
+</table>

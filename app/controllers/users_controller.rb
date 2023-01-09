@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  # TODO: Refactor long logics to a library or something
   before_action :authenticate_user!
   before_action :admin_only, except: [:portfolio]
   before_action :get_user, only: %i[show edit update destroy approve portfolio]
@@ -56,6 +57,21 @@ class UsersController < ApplicationController
 
   def portfolio
     @stocks = @user.stocks
+    # batch requests can only handle 10 symbols at a time so we split @stocks into groups of 10
+    # and do a batch request for each group
+    @batch_companies = @stocks.in_groups_of(10, false).map do |group|
+      Iex.client.get("/stock/market/batch", {
+        token: ENV["iex_publishable_token"],
+        symbols: group.pluck(:symbol).map(&:downcase).join(","),
+        types: [:company]
+      })
+    end
+    # => returns data in the shape of [{"AAPL" => {"company" => {...company_attributes_of_AAPL}}, "TSLA"=>{"company"=>{...company_attributes_of_TSLA}}, ...}]
+
+    # reshape the data so it becomes {"AAPL"=>{...company_attributes_of_AAPL}, "TSLA"=>{...company_attributes_of_TSLA}}
+    @batch_companies = @batch_companies.first.keys.each_with_object({}) do |symbol, accumulator|
+      accumulator[symbol] = @batch_companies.first[symbol]["company"]
+    end
   end
 
   private
