@@ -10,6 +10,16 @@ class User < ApplicationRecord
   enum :user_type, {trader: 0, admin: 1}
   enum :trading_status, {pending: 0, approved: 1}, prefix: true
 
+  def units_owned
+    transactions.each_with_object({}) do |transaction, accumulator|
+      if !accumulator[transaction.stock.symbol]
+        accumulator[transaction.stock.symbol] = transaction.units
+      else
+        accumulator[transaction.stock.symbol] += transaction.units
+      end
+    end
+  end
+
   private
 
   def set_trading_status
