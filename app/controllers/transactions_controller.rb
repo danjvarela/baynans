@@ -1,5 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :get_stock, except: [:index]
+  before_action :check_trading_status, only: [:create]
   def new
     @transaction = Transaction.new(stock: @stock, user: current_user, stock_price: @stock_quote.latest_price)
   end
@@ -39,5 +40,9 @@ class TransactionsController < ApplicationController
   def get_stock
     @stock = Stock.find(params[:stock_id])
     @stock_quote = Iex.client.quote(@stock.symbol)
+  end
+
+  def check_trading_status
+    redirect_to(new_stock_transaction_path(@stock), alert: "Your trading status is pending, please wait for admin approval") if current_user.trading_status_pending?
   end
 end
