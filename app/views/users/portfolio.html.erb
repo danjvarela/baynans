@@ -29,6 +29,7 @@
       <td><%= company["sector"] %></td>
       <td><%= company["employees"] %></td>
       <td><%= company["tags"].join(", ") %></td>
+      <td><%= link_to "Trade", new_stock_transaction_path(stock) %></td>
     </tr>
   <% end %>
 </table>
