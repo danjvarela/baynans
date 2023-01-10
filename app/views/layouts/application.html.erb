@@ -34,7 +34,11 @@
           <%= link_to "Transaction History", transactions_path %>
         </p>
       <% end %>
-
+      <% if action_name != "portfolio" %>
+        <p>
+          <%= link_to "Portfolio", user_portfolio_path(current_user) %>
+        </p>
+      <% end %>
     <% end %>
     <%= yield %>
   </body>

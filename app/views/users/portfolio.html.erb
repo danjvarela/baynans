@@ -12,11 +12,11 @@
     <th>Employees</th>
     <th>Tags</th>
   </tr>
-  <% @stocks.each do |stock| %>
-    <% company = @batch_companies[stock.symbol] %>
+  <% @portfolio_companies.each do |symbol, company| %>
+    <% stock = @stocks.detect {|stock| stock.symbol == symbol} %>
     <tr>
       <td>
-        <%= link_to company["symbol"], company["website"] %>
+        <%= link_to symbol, URI::HTTP.build({host: company["website"].sub(/^http[s]*:\/\/*/, '').sub(/\//, ""), protocol: "https"}).to_s, target: "_blank" %>
       </td>
       <td>
         <%= company["companyName"] %>
@@ -29,6 +29,7 @@
       <td><%= company["sector"] %></td>
       <td><%= company["employees"] %></td>
       <td><%= company["tags"].join(", ") %></td>
+      <td><%= link_to "Trade", new_stock_transaction_path(stock) %></td>
     </tr>
   <% end %>
 </table>

@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
-  # TODO: Refactor long logics to a library or something
   before_action :authenticate_user!
   before_action :admin_only, except: [:portfolio]
-  before_action :get_user, only: %i[show edit update destroy approve portfolio]
-  before_action :get_user_type_options, only: %i[new create edit update]
+  before_action :find_user, only: %i[show edit update destroy approve portfolio]
+  before_action :user_type_options, only: %i[new create edit update]
 
   def index
     @users = User.all
@@ -55,21 +54,7 @@ class UsersController < ApplicationController
 
   def portfolio
     @stocks = @user.stocks
-    # batch requests can only handle 10 symbols at a time so we split @stocks into groups of 10
-    # and do a batch request for each group
-    @batch_companies = @stocks.in_groups_of(10, false).map do |group|
-      Iex.client.get('/stock/market/batch', {
-                       token: ENV['iex_publishable_token'],
-                       symbols: group.pluck(:symbol).map(&:downcase).join(','),
-                       types: [:company]
-                     })
-    end
-    # => returns data in the shape of [{"AAPL" => {"company" => {...company_attributes_of_AAPL}}, "TSLA"=>{"company"=>{...company_attributes_of_TSLA}}, ...}]
-
-    # reshape the data so it becomes {"AAPL"=>{...company_attributes_of_AAPL}, "TSLA"=>{...company_attributes_of_TSLA}}
-    @batch_companies = @batch_companies.first.keys.index_with do |symbol|
-      @batch_companies.first[symbol]['company']
-    end
+    @portfolio_companies = @user.portfolio_companies
   end
 
   private
@@ -91,11 +76,11 @@ class UsersController < ApplicationController
     custom_params
   end
 
-  def get_user
+  def find_user
     @user = User.find params[:id]
   end
 
-  def get_user_type_options
+  def user_type_options
     @user_type_options = User.user_types.keys.map { |type| [type.humanize, type] }
   end
 end
