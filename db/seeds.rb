@@ -24,13 +24,11 @@ stocks = Stock.all
   user.save unless User.find_by email: user.email
   user.trading_status_approved!
 
-  3.times do
-    stock = stocks.sample
-    quote = Iex.client.quote stock.symbol
-    stock_price = quote['latest_price']
-    amount = rand(1..stock_price)
-    units = amount / stock_price
-    Transaction.create user:, stock: stocks.sample, amount:, transaction_type: %i[buy sell].sample,
-                       stock_price:, units:
-  end
+  stock = stocks.sample
+  quote = Iex.client.quote stock.symbol
+  stock_price = quote['latest_price']
+  amount = stock_price
+  units = amount / stock_price
+  Transaction.create(user:, stock:, amount:, transaction_type: :buy, stock_price:, units:)
+  Transaction.create(user:, stock:, amount:, transaction_type: :sell, stock_price:, units:)
 end
