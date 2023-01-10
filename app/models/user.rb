@@ -10,13 +10,24 @@ class User < ApplicationRecord
   enum :user_type, { trader: 0, admin: 1 }
   enum :trading_status, { pending: 0, approved: 1 }, prefix: true
 
-  def units_owned
-    transactions.each_with_object({}) do |transaction, accumulator|
-      if !accumulator[transaction.stock.symbol]
-        accumulator[transaction.stock.symbol] = transaction.units
-      else
-        accumulator[transaction.stock.symbol] += transaction.units
-      end
+  def transactions_by_stock
+    transactions.group_by { |transaction| transaction.stock.symbol }
+  end
+
+  def stock_units(symbol)
+    transactions_by_stock[symbol]&.sum(&:units) || 0
+  end
+
+  def portfolio_companies
+    stock_symbols = stocks.pluck(:symbol).uniq
+    batch_companies = stock_symbols.in_groups_of(10, false).map do |symbols|
+      Iex.client.get('/stock/market/batch',
+                     { token: ENV['iex_publishable_token'], symbols: symbols.map(&:downcase).join(','),
+                       types: [:company] })
+    end
+
+    stock_symbols.index_with do |symbol|
+      batch_companies[0][symbol]['company']
     end
   end
 

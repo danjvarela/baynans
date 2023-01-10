@@ -1,5 +1,5 @@
 <h1><%= @stock.company_name %></h1>
-<strong>Units owned: <%= current_user.units_owned[@stock.symbol] || 0 %></strong>
+<strong>Units owned: <%= current_user.stock_units(@stock.symbol) %></strong>
 <p>Latest price: <%= @transaction.stock_price %></p>
 <h2>Buy Stock</h2>
 <%= form_with(model: @transaction, url: stock_transactions_path(@stock), method: :post) do |form| %>
