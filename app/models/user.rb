@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :transactions
+  has_many :transactions, dependent: :destroy
   has_many :stocks, through: :transactions
   before_validation :set_trading_status, on: :create
 
