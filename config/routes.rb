@@ -11,5 +11,4 @@ Rails.application.routes.draw do
     resources :transactions, only: %i[create new]
   end
   resources :transactions, only: %i[index]
-
 end

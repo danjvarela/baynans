@@ -18,7 +18,11 @@ class TransactionsController < ApplicationController
   end
 
   def index
-    @transactions = current_user.transactions
+    @transactions = if current_user.admin?
+                      Transaction.all.order(:user_id)
+                    else
+                      current_user.transactions
+                    end
   end
 
   private
