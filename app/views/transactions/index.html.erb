@@ -1,5 +1,4 @@
 <h1>Transaction History</h1>
-
 <table>
   <tr>
     <th>Symbol</th>
@@ -7,14 +6,20 @@
     <th>Stock Price</th>
     <th>Amount</th>
     <th>Transaction Type</th>
+    <% if current_user.admin? %>
+      <th>User</th>
+    <% end %>
   </tr>
   <% @transactions.each do |transaction| %>
     <tr>
       <td><%= transaction.stock.symbol %></td>
-      <td><%= transaction.stock.company_name %></td>     
+      <td><%= transaction.stock.company_name %></td>
       <td><%= transaction.stock_price %></td>
       <td><%= transaction.amount * (transaction.sell? ? -1 : 1 ) %></td>
       <td><%= transaction.transaction_type.humanize %></td>
+      <% if current_user.admin? %>
+        <td><%= transaction.user.email %></td>
+      <% end %>
     </tr>
   <% end %>
 </table>

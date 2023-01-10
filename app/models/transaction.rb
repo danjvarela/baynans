@@ -28,7 +28,7 @@ class Transaction < ApplicationRecord
 
   def sell_amount
     return if buy?
-    
+
     user_stock_units = user.stock_units(stock.symbol)
     return if amount <= user_stock_units * stock_price
 
