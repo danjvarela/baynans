@@ -16,7 +16,7 @@
     <% stock = @stocks.detect {|stock| stock.symbol == symbol} %>
     <tr>
       <td>
-        <%= link_to company["symbol"], company["website"] %>
+        <%= link_to symbol, URI::HTTP.build({host: company["website"].sub(/^http[s]*:\/\/*/, '').sub(/\//, ""), protocol: "https"}).to_s, target: "_blank" %>
       </td>
       <td>
         <%= company["companyName"] %>
