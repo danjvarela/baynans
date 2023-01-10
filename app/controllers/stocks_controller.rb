@@ -1,5 +1,4 @@
 class StocksController < ApplicationController
-  before_action :authenticate_user!
   def trade
     @stock = Stock.find_by(symbol: get_stock[:symbol])
     @stock ||= Stock.create(symbol: get_stock[:symbol], company_name: get_stock[:company_name])

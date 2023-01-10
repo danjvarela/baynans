@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
   before_action :admin_only, except: [:portfolio]
   before_action :find_user, only: %i[show edit update destroy approve portfolio]
   before_action :user_type_options, only: %i[new create edit update]
