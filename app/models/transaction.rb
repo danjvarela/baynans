@@ -1,6 +1,6 @@
 class Transaction < ApplicationRecord
   after_validation :negate_amount_if_sell
-  before_validation :calculate_units
+  after_validation :calculate_units
   belongs_to :user
   belongs_to :stock
   validate :check_user_trading_status
