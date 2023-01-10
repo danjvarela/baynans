@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
     if @transaction.save
       redirect_to new_stock_transaction_path(@stock), notice: 'Succesfully placed order!'
     else
-      flash.now[:alert] = 'Something went wrong, please try again!'
+      @transaction.amount = nil
       render :new
     end
   end

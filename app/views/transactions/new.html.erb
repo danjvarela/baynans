@@ -1,8 +1,13 @@
 <h1><%= @stock.company_name %></h1>
 <strong>Units owned: <%= current_user.stock_units(@stock.symbol) %></strong>
 <p>Latest price: <%= @transaction.stock_price %></p>
+
 <h2>Buy Stock</h2>
 <%= form_with(model: @transaction, url: stock_transactions_path(@stock), method: :post) do |form| %>
+  <% if @transaction.buy? %>
+    <%= render "errors", transaction: @transaction %>
+  <% end %>
+
   <div>
     <%= form.label :amount, style: "display: block" %>
     <%= form.number_field :amount, step: "any" %>
@@ -13,8 +18,13 @@
     <%= form.submit "Buy" %>
   </div>
 <% end %>
+
 <h2>Sell Stock</h2>
 <%= form_with(model: @transaction, url: stock_transactions_path(@stock), method: :post) do |form| %>
+  <% if @transaction.sell? %>
+    <%= render "errors", transaction: @transaction %>
+  <% end %>
+
   <div>
     <%= form.label :amount, style: "display: block" %>
     <%= form.number_field :amount, step: "any" %>

@@ -1,0 +1,7 @@
+<% if transaction.errors.any? %>
+  <div style="color: red">
+    <% transaction.errors.each do |error| %>
+      <p><%= error.full_message %></p>
+    <% end %>
+  </div>
+<% end %>
