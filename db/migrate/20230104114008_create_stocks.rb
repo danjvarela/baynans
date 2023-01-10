@@ -6,5 +6,6 @@ class CreateStocks < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+    add_index :stocks, :symbol, unique: true
   end
 end

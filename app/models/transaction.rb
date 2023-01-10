@@ -1,9 +1,12 @@
 class Transaction < ApplicationRecord
-  before_validation :negate_amount_if_sell, on: :create
+  after_validation :negate_amount_if_sell
   before_validation :calculate_units
   belongs_to :user
   belongs_to :stock
   validate :check_user_trading_status
+  validates :amount, numericality: { greater_than: 0 }, presence: true
+  validate :sell_amount
+  validates :stock_price, numericality: { greater_than: 0 }, presence: true
 
   enum :transaction_type, { buy: 0, sell: 1 }
 
@@ -21,5 +24,14 @@ class Transaction < ApplicationRecord
 
   def calculate_units
     self.units = self.amount / stock_price
+  end
+
+  def sell_amount
+    return if buy?
+    
+    user_stock_units = user.stock_units(stock.symbol)
+    return if amount <= user_stock_units * stock_price
+
+    errors.add(:amount, "maximum value is #{user_stock_units * stock_price}")
   end
 end
