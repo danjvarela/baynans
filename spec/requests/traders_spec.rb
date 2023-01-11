@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Traders', type: :request do
   let(:user) do
-    user = User.new(attributes_for(:user))
+    user = build :user
     user.skip_confirmation!
     user.save!
     user
