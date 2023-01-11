@@ -21,12 +21,6 @@ RSpec.describe Transaction, type: :model do
       expect(transaction.save).to be false
     end
 
-    it 'should be negative if sell' do
-      create :transaction, stock:
-      transaction = create(:transaction, transaction_type: :sell, user:, stock:)
-      expect(transaction.amount).to be < 0
-    end
-
     it 'should be less than or equal to what the user owns' do
       transaction = build(:transaction, transaction_type: :sell, user:, stock:)
       expect(transaction.save).to be false
@@ -57,6 +51,14 @@ RSpec.describe Transaction, type: :model do
     it 'should be present' do
       transaction = build(:transaction, transaction_type: nil, user:)
       expect(transaction.save).to be false
+    end
+  end
+
+  describe 'Units' do
+    it 'should be negative if transaction_type is sell' do
+      create(:transaction, stock:, user:)
+      transaction = create(:transaction, transaction_type: :sell, user:, stock:)
+      expect(transaction.units).to be < 0
     end
   end
 end
