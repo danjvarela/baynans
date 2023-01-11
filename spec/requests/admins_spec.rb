@@ -92,21 +92,22 @@ RSpec.describe 'Admins', type: :request do
     end
   end
 
-  # Skip this for now
-  # Updating a user's email triggers confirmation
-  # describe "PUT /admin/users/:id" do
-  #   let(:new_email) { generate :email }
-  #
-  #   it "should update a user's detail" do
-  #     put user_path(user), params: {user: {email: new_email}}
-  #     expect(user.email).to eq(new_email)
-  #   end
-  #
-  #   it "should redirect to root path" do
-  #     put user_path(user), params: {user: {email: new_email}}
-  #     expect(response).to redirect_to(root_path)
-  #   end
-  # end
+  describe 'PUT /admin/users/:id' do
+    let(:new_email) { generate :email }
+
+    it "should update a user's detail" do
+      put user_path(user), params: { user: { email: new_email } }
+      updated_user = User.find(user.id)
+      updated_user.confirm
+      expect(updated_user.email).to eq new_email
+    end
+
+    it 'should redirect to root path' do
+      put user_path(user), params: { user: { email: new_email } }
+      user.confirm
+      expect(response).to redirect_to(root_path)
+    end
+  end
 
   describe 'DELETE /admin/users/:id' do
     it 'should delete a user' do
