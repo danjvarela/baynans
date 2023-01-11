@@ -1,6 +1,7 @@
 FactoryBot.define do
+  symbol = Faker::Finance.ticker
   factory :stock do
-    symbol { 'MyString' }
-    company_name { 'MyString' }
+    symbol { symbol }
+    company_name { symbol }
   end
 end

@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :transaction do
-    user { nil }
-    stock { nil }
+    user { association :user }
+    stock { association :stock }
     amount { 1.5 }
-    type { 1 }
+    transaction_type { 0 }
+    stock_price { 1 }
   end
 end
