@@ -64,6 +64,8 @@ group :development, :test do
 
   gem 'solargraph'
   gem 'solargraph-rails'
+
+  gem 'simplecov', require: false
 end
 
 group :development do
