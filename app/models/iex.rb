@@ -1,10 +1,8 @@
 class Iex < ApplicationRecord
   def self.client
-    logger_instance = Logger.new(STDOUT)
     IEX::Api::Client.new(
       publishable_token: ENV['iex_publishable_token'],
       endpoint: 'https://cloud.iexapis.com/v1',
-      logger: logger_instance
     )
   end
 
