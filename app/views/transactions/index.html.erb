@@ -15,7 +15,7 @@
       <td><%= transaction.stock.symbol %></td>
       <td><%= transaction.stock.company_name %></td>
       <td><%= transaction.stock_price %></td>
-      <td><%= transaction.amount * (transaction.sell? ? -1 : 1 ) %></td>
+      <td><%= transaction.amount %></td>
       <td><%= transaction.transaction_type.humanize %></td>
       <% if current_user.admin? %>
         <td><%= transaction.user.email %></td>
