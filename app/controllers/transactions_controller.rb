@@ -44,6 +44,6 @@ class TransactionsController < ApplicationController
     stock_price = @stock_quote.latest_price
     transaction_type = transaction_form[:transaction_type].to_sym
     amount = transaction_form[:amount].to_f
-    { stock: @stock, user: current_user, stock_price:, transaction_type:, amount:, units: amount / stock_price }
+    { stock: @stock, user: current_user, stock_price:, transaction_type:, amount: }
   end
 end
