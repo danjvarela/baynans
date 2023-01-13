@@ -19,7 +19,8 @@ class User < ApplicationRecord
   end
 
   def portfolio_companies
-    stock_symbols = stocks.pluck(:symbol).uniq
+    non_zero_units = stocks.filter { |stock| stock_units(stock.symbol) > 0 }
+    stock_symbols = non_zero_units.pluck(:symbol).uniq
     batch_companies = stock_symbols.in_groups_of(10, false).map do |symbols|
       Iex.client.get('/stock/market/batch',
                      { token: ENV['iex_publishable_token'], symbols: symbols.map(&:downcase).join(','),
